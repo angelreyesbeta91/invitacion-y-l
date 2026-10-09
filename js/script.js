@@ -36,22 +36,29 @@ const weddingData = {
   gifts: {
     show: true,                           // false = oculta la sección
     text: "Estar contigo ese día es lo más valioso para nosotros. Si quieres acompañarnos con un detalle, te compartimos estas opciones.",
-    items: [
-      { label: "Cuenta", value: "53692413811" },
-      { label: "Llave Bre-B", value: "@yesica2748" },
-      { label: "Nequi", value: "3214398240" }
+    // Un grupo por persona: se muestran en pestañas para que no se sature.
+    groups: [
+      { name: "Yesica", items: [
+        { label: "Cuenta", value: "53692413811" },
+        { label: "Llave Bre-B", value: "@yesica2748" },
+        { label: "Nequi", value: "3214398240" }
+      ]},
+      { name: "Luis Enrique", items: [
+        { label: "Bancolombia · Ahorros", value: "53681415811" },
+        { label: "Llave Bre-B", value: "@heredia19202" }
+      ]}
     ]
   }
 };
 
 const weddingImages = {
-  portrait: "assets/images/foto-4.jpeg",
+  portrait: "assets/images/foto-3.jpeg",
   venue: "assets/images/lugar.jpeg",          // foto del lugar   // foto del arco en la portada
   gallery: [                                // pos = qué parte de la foto se ve en el cuadrado
     { src: "assets/images/foto-1.jpeg", pos: "50% 45%" },
     { src: "assets/images/foto-2.jpeg", pos: "47% 50%" },
     { src: "assets/images/foto-4.jpeg", pos: "50% 25%" },
-    { src: "assets/images/foto-1.jpeg", pos: "55% 60%" }
+    { src: "assets/images/foto-5.jpeg", pos: "55% 60%" }
   ],
   leavesTop: "assets/images/hojas-arriba.webp",
   leavesBottom: "assets/images/hojas-abajo.webp"
@@ -83,7 +90,7 @@ const ICONS = {
   gift: '<rect x="8" y="20" width="32" height="22"/><path d="M5 14h38v6H5zM24 14v28M24 14c-7-9-13-1-6 0M24 14c7-9 13-1 6 0"/>',
   music: '<path d="M18 36V10l20-4v26"/><circle cx="12" cy="36" r="6"/><circle cx="32" cy="32" r="6"/>',
   moon: '<path d="M36 30A16 16 0 0 1 18 8a16 16 0 1 0 18 22z"/><path d="M34 8h6l-6 6h6"/>',
-  heart: '<path d="M12 20S3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 12-9 12z" transform="scale(.9)"/>',
+  heart: '<path d="M12 20S3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 12-9 12z" transform="translate(24 24.5) scale(1.6) translate(-12 -11.5)"/>',
   play: '<circle cx="24" cy="24" r="20" stroke-width="3"/><path d="M19 15l14 9-14 9z" fill="currentColor"/>'
 };
 const icon = n => `<svg viewBox="0 0 48 48" aria-hidden="true">${ICONS[n] || ""}</svg>`;
@@ -94,9 +101,18 @@ if (!weddingData.gifts.show) $("#regalos").remove();
 // Colores reservados
 $("#colors").innerHTML = weddingData.reserved.items.map(c => `<li><i style="background:${c.color}"></i><span class="caps small">${c.name}</span></li>`).join("");
 
-// Lluvia de sobres: datos con botón copiar
-$("#giftInfo").innerHTML = weddingData.gifts.items.map(g => `<li><span>${g.label}</span><b>${g.value}</b><button class="copy" data-v="${g.value}">Copiar</button></li>`).join("");
+// Lluvia de sobres: pestañas por persona + botón copiar
+const gg = weddingData.gifts.groups;
+$("#giftInfo").innerHTML =
+  `<div class="tabs" role="tablist">${gg.map((g, i) => `<button role="tab" class="tab${i ? "" : " on"}" data-t="${i}" aria-selected="${!i}">${g.name}</button>`).join("")}</div>` +
+  gg.map((g, i) => `<ul class="gift-list" data-p="${i}"${i ? " hidden" : ""}>${g.items.map(x => `<li><span>${x.label}</span><b>${x.value}</b><button class="copy" data-v="${x.value}">Copiar</button></li>`).join("")}</ul>`).join("");
 $("#giftInfo").addEventListener("click", e => {
+  const t = e.target.closest(".tab");
+  if (t) {
+    $$(".tab").forEach(b => { b.classList.toggle("on", b === t); b.setAttribute("aria-selected", b === t); });
+    $$(".gift-list").forEach(l => (l.hidden = l.dataset.p !== t.dataset.t));
+    return;
+  }
   const b = e.target.closest(".copy"); if (!b) return;
   navigator.clipboard?.writeText(b.dataset.v).then(() => { b.textContent = "¡Copiado!"; setTimeout(() => (b.textContent = "Copiar"), 1800); });
 });
