@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luis y Yesica · Nos casamos</title>
+  <meta name="description" content="Sé parte de nuestra historia. Abre la invitación.">
+  <meta property="og:title" content="Luis Enrique y Yesica · ¡Nos casamos!">
+  <meta property="og:description" content="Sé parte de nuestra historia. Abre la invitación.">
+  <!-- Foto para la vista previa de WhatsApp: al publicar, usa la dirección completa (https://tusitio.com/assets/images/foto-4.jpg) -->
+  <meta property="og:image" content="assets/images/foto-4.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&family=Playfair+Display:wght@500;700&family=Noto+Serif:wght@400;600&family=Raleway:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <noscript><style>.env-screen{display:none}body.locked{overflow:auto}</style></noscript>
+  <!-- SOBRE DE ENTRADA -->
+  <div class="env-screen" id="env">
+    <div class="leaves" data-leaves></div>
+    <div class="leaves flip" data-leaves></div>
+    <div class="env-wrap">
+      <p class="script sub">Tienes una invitación</p>
+      <button class="envelope" id="envBtn" aria-label="Abrir la invitación">
+        <span class="letter"><em class="caps">¡Nos casamos!</em><em class="script" data-bind="initials"></em></span>
+        <span class="front"></span><span class="flap"></span><span class="seal"><i data-icon="heart"></i></span>
+      </button>
+      <p class="caps hint">Toca para abrir</p>
+    </div>
+  </div>
+
+  <button class="fab totop" id="toTop" aria-label="Volver arriba">↑</button>
+  <button class="fab music" id="music" aria-label="Reproducir música" hidden>♪</button>
+
+  <!-- PORTADA -->
+  <header class="cover leafy" id="inicio">
+    <div class="leaves" data-leaves></div>
+    <div class="wrap">
+      <p class="script sub" data-bind="subtitle"></p>
+      <p class="caps">¡Nos casamos!</p>
+      <h1 class="script names"><span data-bind="groom"></span> y <span data-bind="bride"></span></h1>
+      <p class="caps date" data-bind="dateShort"></p>
+      <img class="arch" data-img="portrait" alt="Luis Enrique y Yesica sonriendo">
+    </div>
+  </header>
+
+  <!-- DALE PLAY -->
+  <section class="play">
+    <div class="wrap reveal">
+      <button class="playbtn" id="playBtn" aria-label="Reproducir música"><i data-icon="play"></i></button>
+      <p class="caps">Dale play!</p>
+      <p class="script sub">Disfruta la invitación completa</p>
+      <p data-bind="playText"></p>
+      <div class="divider" aria-hidden="true"><i data-icon="heart"></i></div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="band" id="countdown">
+    <div class="wrap reveal">
+      <h2 class="script">Faltan</h2>
+      <div class="count" role="timer">
+        <div><b id="cd-d">00</b><small>Días</small></div>
+        <div><b id="cd-h">00</b><small>Horas</small></div>
+        <div><b id="cd-m">00</b><small>Minutos</small></div>
+        <div><b id="cd-s">00</b><small>Segundos</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LUGAR: ceremonia y recepción en un solo sitio -->
+  <section class="leafy" id="lugar">
+    <div class="leaves" data-leaves></div>
+    <div class="wrap reveal">
+      <i class="ico" data-icon="glasses"></i>
+      <h2 class="script fit">Ceremonia y recepción</h2>
+      <p class="gold" data-bind="venue.time"></p>
+      <p class="addr" data-bind="venue.place"></p>
+      <p class="addr" data-bind="venue.address"></p>
+      <figure class="venue-photo"><img data-img="venue" alt="Fachada del restaurante Al Gusto del Pacífico" loading="lazy"><figcaption class="caps small">Así luce la entrada</figcaption></figure>
+      <a class="btn" data-href="venue.mapUrl" target="_blank" rel="noopener">Ver ubicación</a>
+      <div class="notice"><p class="addr" data-bind="notice.text"></p><p class="caps" data-bind="notice.strong"></p></div>
+    </div>
+  </section>
+
+  <!-- COLORES RESERVADOS -->
+  <section class="tight" id="colores">
+    <div class="wrap reveal">
+      <h2 class="script fit" data-bind="reserved.title"></h2>
+      <p class="addr" data-bind="reserved.text"></p>
+      <ul class="colors" id="colors"></ul>
+    </div>
+  </section>
+
+  <!-- CONFIRMAR (enlaza al formulario de Google) -->
+  <section class="band tight" id="rsvp">
+    <div class="wrap reveal">
+      <h2 class="script">Confirmar asistencia</h2>
+      <p class="addr" data-bind="rsvp.text"></p>
+      <a class="btn grey" data-href="rsvp.url" target="_blank" rel="noopener">Confirmar asistencia</a>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section class="soft" id="nosotros">
+    <div class="wrap wide">
+      <i class="ico reveal" data-icon="camera"></i>
+      <h2 class="script reveal">Nosotros…</h2>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+
+  <!-- LLUVIA DE SOBRES (gifts.show = false lo oculta) -->
+  <section class="band tight" id="regalos">
+    <div class="wrap reveal">
+      <i class="ico dark" data-icon="gift"></i>
+      <p class="caps">Lluvia de sobres</p>
+      <p class="addr" data-bind="gifts.text"></p>
+      <button class="btn grey" id="giftBtn" aria-expanded="false" aria-controls="giftInfo">Ver datos</button>
+      <ul class="gift-list" id="giftInfo" hidden></ul>
+    </div>
+  </section>
+
+  <!-- VERSÍCULO -->
+  <section class="tight" id="versiculo">
+    <div class="wrap reveal">
+      <p class="script sub verse" data-bind="verse.text"></p>
+      <p class="caps small" data-bind="verse.ref"></p>
+    </div>
+  </section>
+
+  <!-- CIERRE -->
+  <footer class="band leafy bottom closing">
+    <div class="wrap reveal">
+      <p class="caps">Te esperamos</p>
+      <p class="script names small"><span data-bind="groom"></span> y <span data-bind="bride"></span></p>
+      <p class="caps small" data-bind="dateShort"></p>
+    </div>
+    <div class="leaves flip" data-leaves></div>
+  </footer>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto ampliada" hidden>
+    <button class="lb-x" aria-label="Cerrar">×</button>
+    <button class="lb-n prev" aria-label="Anterior">‹</button>
+    <img id="lbImg" alt="">
+    <button class="lb-n next" aria-label="Siguiente">›</button>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
