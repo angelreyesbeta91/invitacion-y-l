@@ -52,7 +52,7 @@ const weddingData = {
 };
 
 const weddingImages = {
-  portrait: "assets/images/foto-3.jpeg",
+  portrait: "assets/images/foto-6.jpeg",
   venue: "assets/images/lugar.jpeg",          // foto del lugar   // foto del arco en la portada
   gallery: [                                // pos = qué parte de la foto se ve en el cuadrado
     { src: "assets/images/foto-1.jpeg", pos: "50% 45%" },
